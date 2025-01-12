@@ -8,8 +8,8 @@ interface Pump
 
 class Thermosiphon(logger: CoffeeLogger, heater: Heater) : Pump
 
-class CoffeeMaker(logger: CoffeeLogger, heater: Heater, pump: Pump){
-    fun brew(){
+class CoffeeMaker(logger: CoffeeLogger, heater: Heater, pump: Pump) {
+    fun brew() {
         println("Brewing")
     }
 }
