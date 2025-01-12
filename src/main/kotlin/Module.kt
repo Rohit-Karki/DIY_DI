@@ -1,12 +1,6 @@
-val UNINITIALIZED = Any()
-/*
-    * A Factory knows how to create instances of a particular type.
-    * It can leverage the ObjectGraph to retrieve the dependencies needed to create a collaborator.
-*/
+import javax.inject.Singleton
 
-fun interface Factory<T> {
-    fun get(objectGraph: ObjectGraph): T
-}
+val UNINITIALIZED = Any()
 
 interface Module {
     operator fun <T> get(requestedType: Class<T>): Factory<T>?
@@ -40,11 +34,24 @@ inline fun <reified REQUESTED, reified PROVIDED : REQUESTED>
 fun <T> singleton(factory: Factory<T>): Factory<T> {
     var instance: Any? = UNINITIALIZED
 
-    return Factory{ linker ->
+    return Factory { linker ->
         if (instance == UNINITIALIZED) {
             instance = factory.get(linker)
         }
         instance as T
     }
+}
+
+class ReflectiveModule :Module{
+    override fun <T> get(requestedType: Class<T>): Factory<T>? {
+        val reflectiveFactory = ReflectiveFactory(requestedType)
+
+        return if (requestedType.isAnnotationPresent(Singleton::class.java)){
+            singleton(reflectiveFactory)
+        } else {
+            reflectiveFactory
+        }
+    }
 
 }
+

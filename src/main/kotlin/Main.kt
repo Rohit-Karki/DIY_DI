@@ -1,9 +1,16 @@
+import javax.inject.Inject
+import javax.inject.Singleton
+
 class CoffeeLogger
 
 interface Heater
 
-class ElectricHeater(logger: CoffeeLogger) : Heater
-
+@Singleton
+class ElectricHeater @Inject constructor(
+    private val logger: CoffeeLogger
+) : Heater {
+    // ...
+}
 interface Pump
 
 class Thermosiphon(logger: CoffeeLogger, heater: Heater) : Pump
