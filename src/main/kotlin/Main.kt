@@ -1,3 +1,7 @@
+import animal.Cat
+import animal.Dog
+import animal.TopAnimal
+import calculator.Calculator
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -7,7 +11,7 @@ interface Heater
 
 @Singleton
 class ElectricHeater @Inject constructor(
-    private val logger: CoffeeLogger
+    private val logger: CoffeeLogger,
 ) : Heater {
     // ...
 }
@@ -21,6 +25,7 @@ class CoffeeMaker(logger: CoffeeLogger, heater: Heater, pump: Pump) {
     }
 }
 
+/*
 fun main(args: Array<String>) {
     val module = FactoryHolderModule()
     module.bind<Heater, ElectricHeater>()
@@ -39,4 +44,14 @@ fun main(args: Array<String>) {
 
     coffeeMaker.brew()
     println("Hello World!")
+}
+*/
+
+fun main(args: Array<String>) {
+    val calc = Calculator()
+    println(calc.add(1.2f, 2.3f))
+    val dg: TopAnimal = Dog("Rohit", 22)
+    dg.callAnimal()
+    val ct: TopAnimal = Cat("RRK", 22)
+    ct.callAnimal()
 }
